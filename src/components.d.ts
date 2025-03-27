@@ -13,6 +13,8 @@ declare module 'vue' {
     InputEmail: typeof import('./components/forms/InputEmail.vue')['default']
     InputName: typeof import('./components/forms/InputName.vue')['default']
     InputPassword: typeof import('./components/forms/InputPassword.vue')['default']
+    Phaser: typeof import('./components/Phaser.vue')['default']
+    PhaserGame: typeof import('./components/game/PhaserGame.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

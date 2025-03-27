@@ -34,6 +34,12 @@ export const routes = [
         component: () => import('~/views/Home.vue'),
         alias: '',
       },
+      {
+        path: '/game',
+        name: 'Game',
+        component: () => import('~/views/Game.vue'),
+        alias: '',
+      },
     ],
   },
 ]
