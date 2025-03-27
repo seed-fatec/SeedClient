@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import bg from '@assets/bg.png';
+import bg from '@assets/background.png';
 import coin from '@assets/coin.png';
 import bomb from '@assets/bomb.png';
 import person from '@assets/character_base.png';

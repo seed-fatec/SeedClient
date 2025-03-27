@@ -14,9 +14,9 @@ defineExpose({game});
 </script>
 
 <template>
-    <h1>hello</h1>
-    <div id="game-container" min-h-screen bg-neutral-200 flex items-center justify-center>
-        
+    <div id="game-container"></div>
+        <div id="box">
+        <p id="restart-message"></p>
+        <p id="player-position"></p>
     </div>
-    <p id="player-position">adsf</p>   
 </template>
