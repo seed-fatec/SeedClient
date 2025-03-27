@@ -72,8 +72,7 @@ export class GameScene extends Scene {
         });
         
         this.bombs= this.physics.add.group({
-            key: 'star',
-            repeat: 2
+            repeat: 0
         });
 
         this.score = 0;
@@ -160,8 +159,7 @@ export class GameScene extends Scene {
 
         this.tweens.add({
             targets: star,
-            scaleX: 0.35,
-            scaleY: 0.35,
+            scale: 0.35,
             duration: 500,
             ease: 'Back.easeOut'
         });
