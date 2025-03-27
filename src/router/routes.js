@@ -19,11 +19,6 @@ export const routes = [
         name: 'TeacherLogin',
         component: () => import('~/views/auth/TeacherLogin.vue'),
       },
-      {
-        path: '/teacher-register',
-        name: 'TeacherRegister',
-        component: () => import('~/views/auth/TeacherRegister.vue'),
-      },
     ],
   },
   // Main app routes (protected)

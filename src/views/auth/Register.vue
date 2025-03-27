@@ -120,16 +120,6 @@ const onRegisterSubmit = handleSubmit(async () => {
           Entrar como Aluno
         </router-link>
       </div>
-
-      <div class="text-center mt-4">
-        <p class="text-sm text-gray-700">Você é professor?</p>
-        <router-link
-          :to="{ name: 'TeacherRegister' }"
-          class="text-sm text-primary hover:underline"
-        >
-          Registrar como Professor
-        </router-link>
-      </div>
     </form>
   </div>
 </template>

@@ -16,8 +16,7 @@ router.beforeEach(async (to, from, next) => {
   if (
     (to.name === 'Login' ||
       to.name === 'Register' ||
-      to.name === 'TeacherLogin' ||
-      to.name === 'TeacherRegister') &&
+      to.name === 'TeacherLogin') &&
     accessToken &&
     refreshToken
   ) {

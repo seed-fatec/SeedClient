@@ -46,38 +46,6 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async registerTeacher({ name, email, password }) {
-      const endpoint = '/teacher/register'
-
-      try {
-        const { data, error } = await useApi(endpoint, {
-          fetchOptions: {
-            headers: {
-              'X-Admin-Key': adminKey,
-            },
-          },
-        })
-          .post({
-            name,
-            email,
-            password,
-          })
-          .json()
-
-        console.log('Teacher register response:', data)
-
-        if (error.value)
-          throw new Error(
-            error.value?.message || 'Falha no cadastro do professor'
-          )
-
-        return { data: data.value }
-      } catch (err) {
-        console.error('Teacher register error:', err)
-        throw err
-      }
-    },
-
     async login({ email, password, isTeacher = false }) {
       const endpoint = isTeacher ? '/teacher/login' : '/student/login'
       const fetchOptions = isTeacher

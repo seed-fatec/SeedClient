@@ -86,16 +86,6 @@ const onLoginSubmit = handleSubmit(async () => {
       </button>
 
       <div class="text-center mt-4">
-        <p class="text-sm text-gray-700">Ainda não tem uma conta?</p>
-        <router-link
-          :to="{ name: 'TeacherRegister' }"
-          class="text-sm text-primary hover:underline"
-        >
-          Registrar como Professor
-        </router-link>
-      </div>
-
-      <div class="text-center mt-4">
         <p class="text-sm text-gray-700">Você é aluno?</p>
         <router-link
           :to="{ name: 'Login' }"
