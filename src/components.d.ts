@@ -9,6 +9,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Hello: typeof import('./components/Hello.vue')['default']
+    Phaser: typeof import('./components/Phaser.vue')['default']
+    PhaserGame: typeof import('./components/game/PhaserGame.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
