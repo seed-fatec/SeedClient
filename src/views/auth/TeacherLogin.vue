@@ -60,10 +60,12 @@ const onLoginSubmit = handleSubmit(async () => {
 <template>
   <div class="max-w-md w-full">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-primary justify-center flex gap-0.5">
-        Se<span class="text-white bg-primary px-1 rounded">ed</span>
+      <h1
+        class="text-3xl font-bold text-emerald-600 justify-center flex gap-0.5"
+      >
+        Seed <span class="text-white bg-emerald-600 px-2 rounded">Teacher</span>
       </h1>
-      <p class="text-gray-700 mt-2">Entrar como Professor</p>
+      <p class="text-gray-700 mt-2">Portal do Professor</p>
     </div>
 
     <form @submit.prevent="onLoginSubmit" class="space-y-6">
@@ -71,25 +73,31 @@ const onLoginSubmit = handleSubmit(async () => {
         name="email"
         placeholder="Seu@email.com"
         validation="required|email"
+        class="border-emerald-600 focus:border-emerald-700"
       />
       <InputPassword
         name="password"
         placeholder="Digite sua senha"
         validation="required|min:6"
+        class="border-emerald-600 focus:border-emerald-700"
       />
 
       <div v-if="error" class="alert alert-error text-sm">{{ error }}</div>
 
-      <button type="submit" class="btn btn-primary w-full" :disabled="loading">
+      <button
+        type="submit"
+        class="btn w-full border-none bg-emerald-600 hover:bg-emerald-700 text-white"
+        :disabled="loading"
+      >
         <span v-if="loading">Carregando...</span>
-        <span v-else>Entrar como Professor</span>
+        <span v-else>Acessar Portal do Professor</span>
       </button>
 
       <div class="text-center mt-4">
         <p class="text-sm text-gray-700">Você é aluno?</p>
         <router-link
           :to="{ name: 'Login' }"
-          class="text-sm text-primary hover:underline"
+          class="text-sm text-emerald-600 hover:underline"
         >
           Entrar como Aluno
         </router-link>

@@ -15,7 +15,7 @@ export const routes = [
         component: () => import('~/views/auth/Register.vue'),
       },
       {
-        path: '/teacher-login',
+        path: '/teacher/login',
         name: 'TeacherLogin',
         component: () => import('~/views/auth/TeacherLogin.vue'),
       },
