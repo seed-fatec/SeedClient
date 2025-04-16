@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { useApi } from '~/composables/api'
-import { adminKey } from '~/config/env'
 import router from '~/router/index'
 
 export const useAuthStore = defineStore('auth', {
@@ -48,12 +47,9 @@ export const useAuthStore = defineStore('auth', {
 
     async login({ email, password, isTeacher = false }) {
       const endpoint = isTeacher ? '/teacher/login' : '/student/login'
-      const fetchOptions = isTeacher
-        ? { headers: { 'X-Admin-Key': adminKey } }
-        : {}
 
       try {
-        const { data, error } = await useApi(endpoint, { fetchOptions })
+        const { data, error } = await useApi(endpoint)
           .post({
             email,
             password,
