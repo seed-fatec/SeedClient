@@ -3,9 +3,9 @@ import Header from '~/blocks/Header.vue'
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="flex flex-col">
     <Header />
-    <main class="flex-grow bg-neutral-200 flex items-center justify-center">
+    <main class="min-h-screen bg-neutral-200 flex justify-center">
       <RouterView />
     </main>
   </div>
