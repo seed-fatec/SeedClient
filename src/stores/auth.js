@@ -11,17 +11,12 @@ export const useAuthStore = defineStore('auth', {
     isTeacher: useStorage('is_teacher', false),
   }),
 
-  getters: {
-    isLoggedIn() {
-      return !!this.accessToken && !!this.user
-    },
-    userRole() {
-      return this.isTeacher ? 'teacher' : 'student'
-    },
-  },
-
   actions: {
-    async register({ name, email, password = null }) {
+    async register({ name, email, password }) {
+      if (!password) {
+        throw new Error('A senha é obrigatória')
+      }
+
       const endpoint = '/student/register'
 
       try {
@@ -33,14 +28,11 @@ export const useAuthStore = defineStore('auth', {
           })
           .json()
 
-        console.log('Register response:', data)
-
         if (error.value)
           throw new Error(error.value?.message || 'Falha no cadastro')
 
         return { data: data.value }
       } catch (err) {
-        console.error('Register error:', err)
         throw err
       }
     },
@@ -56,8 +48,6 @@ export const useAuthStore = defineStore('auth', {
           })
           .json()
 
-        console.log('Login response:', data)
-
         if (error.value)
           throw new Error(error.value?.message || 'Falha no login')
 
@@ -70,7 +60,6 @@ export const useAuthStore = defineStore('auth', {
           throw new Error('Resposta inválida do servidor')
         }
       } catch (err) {
-        console.error('Login error:', err)
         throw err
       }
     },
@@ -90,7 +79,6 @@ export const useAuthStore = defineStore('auth', {
         this.clearAuth()
         router.push({ name: 'Login' })
       } catch (err) {
-        console.error('Logout error:', err)
         this.clearAuth()
         router.push({ name: 'Login' })
       }
@@ -115,7 +103,6 @@ export const useAuthStore = defineStore('auth', {
         }
         return false
       } catch (err) {
-        console.error('Token refresh error:', err)
         this.clearAuth()
         return false
       }
@@ -136,7 +123,6 @@ export const useAuthStore = defineStore('auth', {
         }
         return null
       } catch (err) {
-        console.error('Get user data error:', err)
         return null
       }
     },
