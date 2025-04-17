@@ -32,24 +32,19 @@ const onLoginSubmit = handleSubmit(async () => {
     loading.value = true
     error.value = ''
 
-    console.log('Attempting student login with:', values.email)
-
     const response = await authStore.login({
       email: values.email,
       password: values.password,
       isTeacher: false,
     })
 
-    console.log('Login response:', response)
-
     if (response.data) {
       await authStore.me()
-      router.push({ name: 'Home' })
+      router.push({ name: 'MyCourses' })
     } else {
       error.value = 'Credenciais inválidas'
     }
   } catch (err) {
-    console.error('Login error:', err)
     error.value = err.message || 'Falha no login'
   } finally {
     loading.value = false
