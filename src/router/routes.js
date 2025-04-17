@@ -41,6 +41,12 @@ export const routes = [
         component: () => import('~/views/student/MyCourses.vue'),
         meta: { requiresTeacher: false },
       },
+      {
+        path: '/courses/:id',
+        name: 'CourseDetails',
+        component: () => import('~/views/student/CourseDetails.vue'),
+        meta: { requiresTeacher: false },
+      },
       // Teacher routes
       {
         path: '/teacher/courses',
@@ -52,6 +58,18 @@ export const routes = [
         path: '/teacher/courses/new',
         name: 'NewCourse',
         component: () => import('~/views/teacher/NewCourse.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/:id',
+        name: 'TeacherCourseDetails',
+        component: () => import('~/views/teacher/CourseDetails.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/:id/edit',
+        name: 'EditCourse',
+        component: () => import('~/views/teacher/EditCourse.vue'),
         meta: { requiresTeacher: true },
       },
       // Game
