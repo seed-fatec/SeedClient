@@ -84,14 +84,6 @@ const navigateToCourse = () => {
       <h3 class="text-xl font-semibold text-gray-800 mb-2">
         {{ courseDetails.name }}
       </h3>
-
-      <p
-        v-if="courseDetails.description"
-        class="text-gray-600 mb-4 line-clamp-2"
-      >
-        {{ courseDetails.description }}
-      </p>
-
       <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
         <div>
           <span class="font-medium text-gray-700">Preço:</span>

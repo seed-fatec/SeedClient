@@ -20,7 +20,6 @@ declare module 'vue' {
     InputName: typeof import('./components/forms/InputName.vue')['default']
     InputPassword: typeof import('./components/forms/InputPassword.vue')['default']
     InputPrice: typeof import('./components/forms/InputPrice.vue')['default']
-    Modal: typeof import('./components/Modal.vue')['default']
     Phaser: typeof import('./components/Phaser.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

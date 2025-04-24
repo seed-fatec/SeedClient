@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -41,11 +42,9 @@ const onLoginSubmit = handleSubmit(async () => {
     if (response.data) {
       await authStore.me()
       router.push({ name: 'MyCourses' })
-    } else {
-      error.value = 'Credenciais inválidas'
     }
   } catch (err) {
-    error.value = err.message || 'Falha no login'
+    toast.error('Credenciais inválidas')
   } finally {
     loading.value = false
   }

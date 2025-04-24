@@ -106,7 +106,7 @@ const formattedPrice = (price) => {
 
     <template v-else-if="course">
       <div class="flex justify-between items-start mb-8">
-        <CourseHeader :name="course.name" :description="course.description" />
+        <CourseHeader :name="course.name" />
         <CourseActions
           :course-id="course.id"
           @create-lesson="handleCreateLesson"
@@ -121,6 +121,7 @@ const formattedPrice = (price) => {
             :max-capacity="course.max_capacity"
             :start-date="formatDate(course.start_date)"
             :end-date="formatDate(course.end_date)"
+            :description="course.description"
           />
 
           <CourseLessons />

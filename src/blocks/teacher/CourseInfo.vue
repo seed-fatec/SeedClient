@@ -16,6 +16,10 @@ defineProps({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
 })
 </script>
 
@@ -40,6 +44,9 @@ defineProps({
       <p>
         <span class="font-medium text-gray-700">Data de Término:</span>
         <span class="ml-2 text-gray-600">{{ endDate }}</span>
+      </p>
+      <p class="text-gray-600">
+        {{ description }}
       </p>
     </div>
   </div>

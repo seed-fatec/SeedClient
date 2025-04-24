@@ -63,7 +63,6 @@ export const useAuthStore = defineStore('auth', {
         throw err
       }
     },
-
     async logout() {
       if (!this.refreshToken) {
         this.clearAuth()

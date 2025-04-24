@@ -13,11 +13,11 @@ const props = defineProps({
 <template>
   <div>
     <Field
-      :name="name"
-      :value="value"
-      :rules="validation"
-      :label="label"
-      :placeholder="placeholder"
+      :name
+      :value
+      :rules
+      :label
+      :placeholder
       type="number"
       min="1"
       max="30"
