@@ -16,7 +16,7 @@ const handleLogout = async () => {
 
 <template>
   <nav class="bg-neutral-100 shadow-md">
-    <div class="container mx-auto flex items-center justify-between h-16">
+    <div class="container mx-auto flex items-center justify-between h-16 select-none">
       <div class="flex items-center">
         <h1 class="text-3xl font-bold text-primary justify-center flex gap-0.5">
           Se<span class="text-white bg-primary px-1 rounded">ed</span>

@@ -123,7 +123,6 @@ const formattedPrice = (price) => {
             :end-date="formatDate(course.end_date)"
             :description="course.description"
           />
-
           <CourseLessons />
         </div>
       </div>

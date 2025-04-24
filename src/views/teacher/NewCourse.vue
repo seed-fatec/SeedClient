@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCoursesStore } from '~/stores/courses'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const coursesStore = useCoursesStore()
@@ -20,7 +21,7 @@ const handleSubmit = async (courseData) => {
       router.push({ name: 'TeacherCourses' })
     }
   } catch (err) {
-    error.value = err.message || 'Falha ao criar curso'
+    toast.error('Falha ao criar curso')
   } finally {
     loading.value = false
   }
@@ -36,8 +37,6 @@ const handleCancel = () => {
     <div class="bg-white rounded-lg shadow-md p-6 min-w-3xl">
       <h1 class="text-3xl font-bold text-gray-800 mb-6">Novo Curso</h1>
       <hr class="border-t border-gray-200 mb-6" />
-      <div v-if="error" class="alert alert-error text-sm mb-6">{{ error }}</div>
-
       <CourseForm
         :loading="loading"
         submit-button-text="Criar Curso"

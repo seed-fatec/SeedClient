@@ -45,7 +45,7 @@ defineProps({
         <span class="font-medium text-gray-700">Data de Término:</span>
         <span class="ml-2 text-gray-600">{{ endDate }}</span>
       </p>
-      <p class="text-gray-600">
+      <p class="text-gray-600 bg-gray-100 p-4 rounded-md">
         {{ description }}
       </p>
     </div>

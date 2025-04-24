@@ -40,18 +40,19 @@ const schema = yup.object({
   price: yup
     .string()
     .required('O preço é obrigatório')
+    .typeError('Deve ser um número')
     .min(0, 'O preço deve ser maior ou igual a zero'),
   max_capacity: yup
     .number()
     .required('A capacidade máxima é obrigatória')
-    .typeError('A capacidade deve ser um número inteiro')
+    .typeError('Deve ser um número inteiro')
     .min(1, 'A capacidade deve ser maior ou igual a 1')
     .max(30, 'A capacidade deve ser menor ou igual a 30'),
   start_date: yup.string().nullable(),
   end_date: yup.string().nullable(),
 })
 
-const { handleSubmit, values, setValues } = useForm({
+const { handleSubmit, values } = useForm({
   validationSchema: schema,
   initialValues: props.initialValues,
 })
@@ -68,7 +69,9 @@ const onSubmit = handleSubmit(async (formValues) => {
   emit('submit', courseData)
 })
 
-const buttonLabel = computed(() => props.loading ? props.loadingButtonText : props.submitButtonText)
+const buttonLabel = computed(() =>
+  props.loading ? props.loadingButtonText : props.submitButtonText
+)
 </script>
 
 <template>
@@ -85,7 +88,7 @@ const buttonLabel = computed(() => props.loading ? props.loadingButtonText : pro
       />
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div class="form-control">
         <label for="price" class="label">
           <span class="label-text font-medium text-gray-800">Preço</span>
@@ -111,10 +114,7 @@ const buttonLabel = computed(() => props.loading ? props.loadingButtonText : pro
           validation="required|integer|min:1|max:30"
         />
       </div>
-    </div>
-    
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="form-control">
         <label for="start_date" class="label">
           <span class="label-text font-medium text-gray-800"
@@ -162,11 +162,7 @@ const buttonLabel = computed(() => props.loading ? props.loadingButtonText : pro
         Cancelar
       </button>
 
-      <button
-        :disabled="loading"
-        type="submit"
-        class="btn btn-primary"
-      >
+      <button :disabled="loading" type="submit" class="btn btn-primary">
         {{ buttonLabel }}
       </button>
     </div>
