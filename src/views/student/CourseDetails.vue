@@ -54,7 +54,7 @@ const formattedPrice = (price) => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col items-center">
     <div class="container px-4 py-8">
       <BackButton to="/discover/courses" text="Voltar para Explorar" />
 
