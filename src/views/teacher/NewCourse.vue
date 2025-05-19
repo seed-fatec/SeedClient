@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCoursesStore } from '~/stores/courses'
-import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const coursesStore = useCoursesStore()
@@ -11,20 +10,13 @@ const loading = ref(false)
 const error = ref('')
 
 const handleSubmit = async (courseData) => {
-  try {
-    loading.value = true
-    error.value = ''
+  const { execute, data } = coursesStore.createCourse(courseData)
 
-    const response = await coursesStore.createCourse(courseData)
-
-    if (response.data) {
+  execute().then(() => {
+    if (data.value) {
       router.push({ name: 'TeacherCourses' })
     }
-  } catch (err) {
-    toast.error('Falha ao criar curso')
-  } finally {
-    loading.value = false
-  }
+  })
 }
 
 const handleCancel = () => {

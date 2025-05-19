@@ -29,27 +29,28 @@ const { handleSubmit, values } = useForm({
 })
 
 const onLoginSubmit = handleSubmit(async () => {
-  try {
-    loading.value = true
-    error.value = ''
+  const { execute, data } = authStore.login(
+    values.email,
+    values.password,
+    true
+  )
 
-    const response = await authStore.login({
-      email: values.email,
-      password: values.password,
-      isTeacher: true,
-    })
-
-    if (response.data) {
-      await authStore.me()
+  execute()
+    .then(() => {
+      if (!data.value) {
+        return
+      }
+      
+      authStore.setAccessToken(data.value.access_token)
+      authStore.setRefreshToken(data.value.refresh_token)
+      authStore.setIsTeacher(true)
+      
+      toast.success('Login realizado com sucesso!')
       router.push({ name: 'TeacherCourses' })
-    } else {
-      error.value = 'Credenciais inválidas'
-    }
-  } catch (err) {
-    toast.error('Credenciais inválidas')
-  } finally {
-    loading.value = false
-  }
+    })
+    .catch((err) => {
+      toast.error('Erro ao realizar login!')
+    })
 })
 </script>
 
