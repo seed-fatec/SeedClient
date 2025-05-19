@@ -20,6 +20,7 @@ export const useApi = createFetch({
       console.error('API Error:', msg)
       return ctx
     },
+    immediate: false,
   },
   fetchOptions: {
     mode: 'cors',
