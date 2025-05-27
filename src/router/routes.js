@@ -72,6 +72,12 @@ export const routes = [
         component: () => import('~/views/teacher/EditCourse.vue'),
         meta: { requiresTeacher: true },
       },
+      {
+        path: '/teacher/courses/:id/class',
+        name: 'CreateClass',
+        component: () => import('~/views/teacher/class/Create.vue'),
+        meta: { requiresTeacher: true },
+      },
       // Game
       {
         path: '/game',

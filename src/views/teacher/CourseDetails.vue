@@ -6,10 +6,12 @@ import CourseHeader from '~/blocks/teacher/CourseHeader.vue'
 import CourseActions from '~/blocks/teacher/CourseActions.vue'
 import CourseInfo from '~/blocks/teacher/CourseInfo.vue'
 import CourseLessons from '~/blocks/teacher/CourseLessons.vue'
+import { useClassStore } from '~/stores/class'
 
 const router = useRouter()
 const route = useRoute()
 const coursesStore = useCoursesStore()
+const classStore = useClassStore()
 
 const loading = ref(false)
 const error = ref(null)
@@ -20,7 +22,10 @@ const { execute, data, isFetching } = coursesStore.fetchCourseDetails(route.para
 const { execute: deleteCourse } = coursesStore.deleteCourse(route.params.id)
 execute()
 
+const { data: classData } = classStore.classesList(route.params.id)
+
 const course = computed(() => data.value || null)
+const classes = computed(() => classData.value.classes || [])
 
 const handleDelete = async () => {
   showDeleteModal.value = true
@@ -35,7 +40,7 @@ const confirmDelete = async () => {
 }
 
 const handleCreateLesson = () => {
-  showDevelopmentModal.value = true
+  router.push({ name: 'CreateClass' })
 }
 
 const formatDate = (dateString) => {
@@ -100,7 +105,7 @@ const formattedPrice = (price) => {
             :end-date="formatDate(course.end_date)"
             :description="course.description"
           />
-          <CourseLessons />
+          <CourseLessons :classes />
         </div>
       </div>
     </template>
