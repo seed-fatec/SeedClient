@@ -44,7 +44,7 @@ const formattedPrice = computed(() => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-  }).format(courseDetails.value.price)
+  }).format(courseDetails.value.price / 100)
 })
 
 const formatDate = (dateString) => {
