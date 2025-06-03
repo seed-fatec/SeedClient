@@ -35,32 +35,19 @@ const { handleSubmit, values } = useForm({
   },
 })
 
-const onRegisterSubmit = handleSubmit(async () => {
-  try {
-    loading.value = true
-    error.value = ''
+const onRegisterSubmit = handleSubmit(() => {
+  const { execute, isFetching } = authStore.register({
+    name: values.name,
+    email: values.email,
+    password: values.password,
+  })
 
-    const response = await authStore.register({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    })
+  loading.value = isFetching.value
 
-    if (response.data) {
-      await authStore.login({
-        email: values.email,
-        password: values.password,
-        isTeacher: false,
-      })
-
-      await authStore.me()
-      router.push({ name: 'MyCourses' })
-    }
-  } catch (err) {
-    toast.error('Falha no cadastro')
-  } finally {
-    loading.value = false
-  }
+  execute().then(() => {
+    toast.success('Cadastro realizado com sucesso!')
+    router.push({ name: 'Login' })
+  })
 })
 </script>
 
@@ -100,7 +87,7 @@ const onRegisterSubmit = handleSubmit(async () => {
 
       <div v-if="error" class="alert alert-error text-sm">{{ error }}</div>
 
-      <button type="submit" class="btn btn-primary w-full" :disabled="loading">
+      <button type="submit" class="btn btn-primary w-full">
         <span v-if="loading">Carregando...</span>
         <span v-else>Cadastrar como Aluno</span>
       </button>

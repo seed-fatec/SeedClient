@@ -1,34 +1,20 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useCoursesStore } from '~/stores/courses'
 import CourseHeader from '~/blocks/student/CourseHeader.vue'
 import CourseInfoCard from '~/blocks/student/CourseInfoCard.vue'
 import CoursePriceCard from '~/blocks/student/CoursePriceCard.vue'
 
-const router = useRouter()
 const route = useRoute()
 const coursesStore = useCoursesStore()
 
-const course = ref(null)
-const loading = ref(false)
-const error = ref(null)
 const showDevModal = ref(false)
 
-onMounted(async () => {
-  loading.value = true
-  error.value = null
+const { execute, data } = coursesStore.fetchCourseDetails(route.params.id)
+execute()
 
-  try {
-    const { data } = await coursesStore.fetchCourseDetails(route.params.id)
-    course.value = data
-  } catch (err) {
-    error.value =
-      'Erro ao carregar detalhes do curso. Por favor, tente novamente.'
-  } finally {
-    loading.value = false
-  }
-})
+const course = computed(() => data.value || null)
 
 const handleJoin = () => {
   showDevModal.value = true

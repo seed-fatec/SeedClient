@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCoursesStore } from '~/stores/courses'
 
@@ -8,18 +8,11 @@ const coursesStore = useCoursesStore()
 const loading = ref(false)
 const error = ref(null)
 
-onMounted(async () => {
-  loading.value = true
-  error.value = null
+const { execute, data, isFetching } = coursesStore.fetchCourses()
 
-  try {
-    await coursesStore.fetchCourses()
-  } catch (err) {
-    error.value = 'Erro ao carregar cursos. Por favor, tente novamente.'
-  } finally {
-    loading.value = false
-  }
-})
+execute()
+
+const courses = computed(() => data.value.courses || [])
 
 const navigateToNewCourse = () => {
   router.push('/teacher/courses/new')
@@ -34,22 +27,14 @@ const navigateToNewCourse = () => {
         Criar Novo Curso
       </button>
     </div>
-
-    <div
-      v-if="error"
-      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
-    >
-      {{ error }}
-    </div>
-
-    <div v-if="loading" class="flex justify-center items-center h-64">
+    <div v-if="isFetching" class="flex justify-center items-center h-64">
       <div
         class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"
       ></div>
     </div>
 
     <div v-else>
-      <div v-if="coursesStore.courses.length === 0" class="text-center py-12">
+      <div v-if="courses.length === 0" class="text-center py-12">
         <p class="text-gray-600 text-lg">Você ainda não criou nenhum curso.</p>
         <button @click="navigateToNewCourse" class="btn btn-primary mt-4">
           Criar Meu Primeiro Curso
@@ -58,7 +43,7 @@ const navigateToNewCourse = () => {
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <CourseCard
-          v-for="course in coursesStore.courses"
+          v-for="course in courses"
           :key="course.id"
           :course="course"
         />

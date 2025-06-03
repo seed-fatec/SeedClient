@@ -10,58 +10,13 @@ export const useAuthStore = defineStore('auth', {
     user: useStorage('user_data', null),
     isTeacher: useStorage('is_teacher', false),
   }),
-
   actions: {
-    async register({ name, email, password }) {
-      if (!password) {
-        throw new Error('A senha é obrigatória')
-      }
-
-      const endpoint = '/student/register'
-
-      try {
-        const { data, error } = await useApi(endpoint)
-          .post({
-            name,
-            email,
-            password,
-          })
-          .json()
-
-        if (error.value)
-          throw new Error(error.value?.message || 'Falha no cadastro')
-
-        return { data: data.value }
-      } catch (err) {
-        throw err
-      }
+    register(student) {
+      return useApi('/student/register').post(student).json()
     },
-
-    async login({ email, password, isTeacher = false }) {
+    login(email, password, isTeacher = false) {
       const endpoint = isTeacher ? '/teacher/login' : '/student/login'
-
-      try {
-        const { data, error } = await useApi(endpoint)
-          .post({
-            email,
-            password,
-          })
-          .json()
-
-        if (error.value)
-          throw new Error(error.value?.message || 'Falha no login')
-
-        if (data.value) {
-          this.setAccessToken(data.value.access_token)
-          this.setRefreshToken(data.value.refresh_token)
-          this.setIsTeacher(isTeacher)
-          return { data: data.value }
-        } else {
-          throw new Error('Resposta inválida do servidor')
-        }
-      } catch (err) {
-        throw err
-      }
+      return useApi(endpoint).post({ email, password }).json()
     },
     async logout() {
       if (!this.refreshToken) {
@@ -71,7 +26,7 @@ export const useAuthStore = defineStore('auth', {
       }
 
       try {
-        await useApi('/logout').post({
+        await useApi('/logout', { immediate: true }).post({
           refresh_token: this.refreshToken,
         })
 
@@ -87,7 +42,7 @@ export const useAuthStore = defineStore('auth', {
       if (!this.refreshToken) return false
 
       try {
-        const { data, error } = await useApi('/token/refresh')
+        const { data, error } = await useApi('/token/refresh', { immediate: true })
           .post({
             refresh_token: this.refreshToken,
           })
@@ -109,7 +64,7 @@ export const useAuthStore = defineStore('auth', {
 
     async me() {
       try {
-        const { data, error } = await useApi('/users/me').get().json()
+        const { data, error } = await useApi('/users/me', { immediate: true }).get().json()
 
         if (error.value)
           throw new Error(

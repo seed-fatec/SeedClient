@@ -29,25 +29,25 @@ const { handleSubmit, values } = useForm({
 })
 
 const onLoginSubmit = handleSubmit(async () => {
-  try {
-    loading.value = true
-    error.value = ''
+  const { execute, isFetching, data } = authStore.login(
+    values.email,
+    values.password,
+    false
+  )
 
-    const response = await authStore.login({
-      email: values.email,
-      password: values.password,
-      isTeacher: false,
-    })
+  loading.value = isFetching.value
 
-    if (response.data) {
-      await authStore.me()
-      router.push({ name: 'MyCourses' })
+  execute().then(() => {
+    toast.success('Login realizado com sucesso!')
+
+    if (data.value) {
+      authStore.setAccessToken(data.value.access_token)
+      authStore.setRefreshToken(data.value.refresh_token)
+      authStore.setIsTeacher(false)
     }
-  } catch (err) {
-    toast.error('Credenciais inválidas')
-  } finally {
-    loading.value = false
-  }
+
+    router.push({ name: 'MyCourses' })
+  })
 })
 </script>
 
