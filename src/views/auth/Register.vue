@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -39,15 +40,11 @@ const onRegisterSubmit = handleSubmit(async () => {
     loading.value = true
     error.value = ''
 
-    console.log('Attempting student registration:', values)
-
     const response = await authStore.register({
       name: values.name,
       email: values.email,
       password: values.password,
     })
-
-    console.log('Registration response:', response)
 
     if (response.data) {
       await authStore.login({
@@ -57,13 +54,10 @@ const onRegisterSubmit = handleSubmit(async () => {
       })
 
       await authStore.me()
-      router.push({ name: 'Home' })
-    } else {
-      error.value = 'Falha no cadastro'
+      router.push({ name: 'MyCourses' })
     }
   } catch (err) {
-    console.error('Registration error:', err)
-    error.value = err.message || 'Falha no cadastro'
+    toast.error('Falha no cadastro')
   } finally {
     loading.value = false
   }

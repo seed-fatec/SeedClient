@@ -26,14 +26,53 @@ export const routes = [
     path: '',
     component: () => import('~/layouts/AppLayout.vue'),
     meta: { requiresAuth: true },
-    redirect: '/home',
+    redirect: '/my/courses',
     children: [
+      // Student routes
       {
-        path: '/home',
-        name: 'Home',
-        component: () => import('~/views/Home.vue'),
-        alias: '',
+        path: '/discover/courses',
+        name: 'Discover',
+        component: () => import('~/views/student/Discover.vue'),
+        meta: { requiresTeacher: false },
       },
+      {
+        path: '/my/courses',
+        name: 'MyCourses',
+        component: () => import('~/views/student/MyCourses.vue'),
+        meta: { requiresTeacher: false },
+      },
+      {
+        path: '/courses/:id',
+        name: 'CourseDetails',
+        component: () => import('~/views/student/CourseDetails.vue'),
+        meta: { requiresTeacher: false },
+      },
+      // Teacher routes
+      {
+        path: '/teacher/courses',
+        name: 'TeacherCourses',
+        component: () => import('~/views/teacher/TeacherCourses.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/new',
+        name: 'NewCourse',
+        component: () => import('~/views/teacher/NewCourse.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/:id',
+        name: 'TeacherCourseDetails',
+        component: () => import('~/views/teacher/CourseDetails.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/:id/edit',
+        name: 'EditCourse',
+        component: () => import('~/views/teacher/EditCourse.vue'),
+        meta: { requiresTeacher: true },
+      },
+      // Game
       {
         path: '/game',
         name: 'Game',

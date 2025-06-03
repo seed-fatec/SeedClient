@@ -8,10 +8,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Hello: typeof import('./components/Hello.vue')['default']
+    BackButton: typeof import('./components/BackButton.vue')['default']
+    CourseCard: typeof import('./components/CourseCard.vue')['default']
+    CourseForm: typeof import('./components/CourseForm.vue')['default']
+    DeleteModal: typeof import('./components/DeleteModal.vue')['default']
+    DevelopmentModal: typeof import('./components/DevelopmentModal.vue')['default']
+    InputDate: typeof import('./components/forms/InputDate.vue')['default']
+    InputDescription: typeof import('./components/forms/InputDescription.vue')['default']
     InputEmail: typeof import('./components/forms/InputEmail.vue')['default']
+    InputMaxCapacity: typeof import('./components/forms/InputMaxCapacity.vue')['default']
     InputName: typeof import('./components/forms/InputName.vue')['default']
     InputPassword: typeof import('./components/forms/InputPassword.vue')['default']
+    InputPrice: typeof import('./components/forms/InputPrice.vue')['default']
     Phaser: typeof import('./components/Phaser.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

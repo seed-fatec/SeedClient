@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -32,25 +33,20 @@ const onLoginSubmit = handleSubmit(async () => {
     loading.value = true
     error.value = ''
 
-    console.log('Attempting teacher login with:', values.email)
-
     const response = await authStore.login({
       email: values.email,
       password: values.password,
       isTeacher: true,
     })
 
-    console.log('Teacher login response:', response)
-
     if (response.data) {
       await authStore.me()
-      router.push({ name: 'Home' })
+      router.push({ name: 'TeacherCourses' })
     } else {
       error.value = 'Credenciais inválidas'
     }
   } catch (err) {
-    console.error('Teacher login error:', err)
-    error.value = err.message || 'Falha no login'
+    toast.error('Credenciais inválidas')
   } finally {
     loading.value = false
   }

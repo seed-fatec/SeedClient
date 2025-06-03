@@ -8,6 +8,7 @@ const router = createRouter({
   routes,
 })
 
+// Guarda de navegação para verificar autenticação e permissões
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   const { accessToken, refreshToken } = authStore
@@ -20,7 +21,7 @@ router.beforeEach(async (to, from, next) => {
     accessToken &&
     refreshToken
   ) {
-    return next({ name: 'Home' })
+    return next({ name: 'MyCourses' })
   }
 
   // Se faltar o token e tentar acessar uma rota protegida, redireciona para o login
@@ -51,6 +52,24 @@ router.beforeEach(async (to, from, next) => {
       await authStore.logout()
       return next({ name: 'Login' })
     }
+  }
+
+  // Verifica se a rota requer que o usuário seja professor
+  if (
+    to.matched.some((record) => record.meta.requiresTeacher === true) &&
+    !authStore.isTeacher
+  ) {
+    // Se a rota requer professor mas o usuário não é professor, redireciona para a página inicial
+    return next({ name: 'MyCourses' })
+  }
+
+  // Verifica se a rota requer que o usuário seja aluno
+  if (
+    to.matched.some((record) => record.meta.requiresTeacher === false) &&
+    authStore.isTeacher
+  ) {
+    // Se a rota requer aluno mas o usuário é professor, redireciona para a página de cursos do professor
+    return next({ name: 'TeacherCourses' })
   }
 
   next()
