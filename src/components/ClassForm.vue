@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from 'vee-validate'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { computed } from 'vue'
 import * as yup from 'yup'
 import { Icon } from '@iconify/vue'
@@ -20,6 +20,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isFree: {
+    type: Boolean,
+    default: false,
+  },
   submitButtonText: {
     type: String,
     default: 'Salvar',
@@ -31,7 +35,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['submit', 'cancel'])
-const free = ref(false)
+const free = ref(props.isFree)
 
 const schema = yup.object({
   name: yup
@@ -39,8 +43,14 @@ const schema = yup.object({
     .required('O nome é obrigatório')
     .min(8, 'O nome deve ter no mínimo 8 caracteres'),
   description: yup.string().nullable(),
-  start_timestamp: yup.string().nullable(),
-  duration_minutes: yup.number().nullable(),
+  start_timestamp: yup
+    .string()
+    .required("Data de início é obrigatória"),
+  duration_minutes: yup
+    .number() 
+    .transform(value => (isNaN(value) ? undefined : value))
+    .required("Duração é obrigatória")
+    .max(1440, "Deve ter no máximo 24 horas de aula")
 })
 
 const { handleSubmit, values } = useForm({
@@ -49,15 +59,15 @@ const { handleSubmit, values } = useForm({
 })
 
 const onSubmit = handleSubmit(async (formValues) => {
-  const courseData = {
+  const classData = {
     ...formValues,
     description: formValues.description,
     start_timestamp: formValues.start_timestamp,
     duration_minutes: formValues.duration_minutes,
     free: free.value,
   }
-  console.log('Submitting course data:', courseData)
-  emit('submit', courseData)
+
+  emit('submit', classData)
 })
 
 const buttonLabel = computed(() =>
@@ -86,21 +96,17 @@ function onFilesChange(event) {
 function removeFile(index) {
   uploadedFiles.value.splice(index, 1)
 }
-
-watch(uploadedFiles, () => {
-  console.log('Uploaded files:', uploadedFiles.value)
-})
 </script>
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
     <div>
       <div class="relative w-full h-40 bg-neutral-100 rounded-md flex items-center justify-center border border-dashed">
-        <label class="cursor-pointer w-full h-full flex justify-center items-center">
+        <label class="aular-pointer w-full h-full flex justify-center items-center">
           <input type="file" accept="image/*" class="hidden" @change="onImageChange" />
-          <img v-if="imagePreview" :src="imagePreview" alt="Preview" class="h-full object-contain" />
+          <img v-if="imagePreview" :src="imagePreview" alt="Preview" class="h-full object-cover" />
           <span v-else class="text-neutral-400 text-4xl">
-            <Icon icon="line-md:image" class="size-10" />
+            <Icon icon="material-symbols:image-outline" class="size-10" />
           </span>
         </label>
       </div>
@@ -136,7 +142,7 @@ watch(uploadedFiles, () => {
         <InputName
           id="name"
           name="name"
-          placeholder="Digite o nome do curso"
+          placeholder="Digite o nome da aula"
           validation="required|min:8"
         />
       </div>
@@ -173,7 +179,7 @@ watch(uploadedFiles, () => {
         <InputDescription
           id="description"
           name="description"
-          placeholder="Digite a descrição do curso"
+          placeholder="Digite a descrição do aula"
         />
       </div>
       <div class="form-control flex flex-col">

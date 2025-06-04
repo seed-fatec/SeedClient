@@ -77,41 +77,37 @@ const navigateToCourse = () => {
     </div>
 
     <div class="p-4">
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">
-        {{ courseDetails.name }}
-      </h3>
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-xl font-semibold text-gray-800">
+          {{ courseDetails.name }}
+        </h3>
+        <span class="ml-1 text-white badge badge-success">
+          {{ courseDetails.remaining_vacancies }} vagas
+        </span>
+      </div>
       <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
-        <div>
-          <span class="font-medium text-gray-700">Preço:</span>
-          <span class="ml-1 text-gray-600">{{ formattedPrice }}</span>
-        </div>
-
-        <div>
-          <span class="font-medium text-gray-700">Capacidade:</span>
-          <span class="ml-1 text-gray-600"
-            >{{ courseDetails.max_capacity }} alunos</span
-          >
-        </div>
-
         <div>
           <span class="font-medium text-gray-700">Início:</span>
           <span class="ml-1 text-gray-600">{{ startDate }}</span>
         </div>
-
         <div>
           <span class="font-medium text-gray-700">Término:</span>
           <span class="ml-1 text-gray-600">{{ endDate }}</span>
         </div>
       </div>
-
       <div class="border-t border-gray-200 pt-3 mt-3">
-        <div class="flex items-center">
-          <div
-            class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-2"
-          >
-            {{ teacherName.charAt(0) }}
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <div
+              class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-2"
+            >
+              {{ teacherName.charAt(0) }}
+            </div>
+            <span class="text-sm text-gray-600">{{ teacherName }}</span>
           </div>
-          <span class="text-sm text-gray-600">{{ teacherName }}</span>
+          <div>
+            <span class="text-2xl">{{ formattedPrice }}</span>
+          </div>
         </div>
       </div>
     </div>

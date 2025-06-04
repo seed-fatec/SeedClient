@@ -19,7 +19,7 @@ const showDevelopmentModal = ref(false)
 const showDeleteModal = ref(false)
 
 const { execute, data, isFetching } = coursesStore.fetchCourseDetails(route.params.id)
-const { execute: deleteCourse } = coursesStore.deleteCourse(route.params.id)
+const { execute: deleteCourse, statusCode } = coursesStore.deleteCourse(route.params.id)
 execute()
 
 const { data: classData } = classStore.classesList(route.params.id)
@@ -33,7 +33,8 @@ const handleDelete = async () => {
 
 const confirmDelete = async () => {
   deleteCourse()
-    .then(() => {
+    .finally(() => {
+      if (statusCode.value !== 204) return
       toast.success('Curso excluído com sucesso!')
       router.push({ name: 'TeacherCourses' })
     })
@@ -46,12 +47,8 @@ const handleCreateLesson = () => {
 const formatDate = (dateString) => {
   if (!dateString) return 'Não definida'
 
-  const date = new Date(dateString)
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }).format(date)
+  const [year, month, day] = dateString.split('-')
+  return `${day}/${month}/${year}`
 }
 
 const formattedPrice = (price) => {
@@ -105,7 +102,7 @@ const formattedPrice = (price) => {
             :end-date="formatDate(course.end_date)"
             :description="course.description"
           />
-          <CourseLessons :classes />
+          <CourseLessons :classes :courseId="course.id"/>
         </div>
       </div>
     </template>

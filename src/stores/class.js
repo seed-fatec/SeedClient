@@ -9,11 +9,14 @@ export const useClassStore = defineStore('class', {
     create(courseId, classData) {
       return useApi(`/courses/${courseId}/classes`).post(classData).json()
     },
-    getById(courseId) {
-      return useApi(`/courses/${courseId}/classes`).get().json()
+    getById(courseId, classId) {
+      return useApi(`/courses/${courseId}/classes/${classId}`).get().json()
     },
-    delete(courseId) {
-      return useApi(`/courses/${courseId}/classes`).delete().json()
+    edit(courseId, classId, classData) {
+      return useApi(`/courses/${courseId}/classes/${classId}`).put(classData).json()
+    },
+    delete(courseId, classId) {
+      return useApi(`/courses/${courseId}/classes/${classId}`).delete().json()
     },
     classesList(courseId) {
       return useApi(`/courses/${courseId}/classes`, { immediate: true }).get().json()

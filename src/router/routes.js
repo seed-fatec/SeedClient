@@ -78,6 +78,18 @@ export const routes = [
         component: () => import('~/views/teacher/class/Create.vue'),
         meta: { requiresTeacher: true },
       },
+      {
+        path: '/teacher/courses/:id/class/:classId/view',
+        name: 'ViewClass',
+        component: () => import('~/views/teacher/class/Details.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/:id/class/:classId/edit',
+        name: 'EditClass',
+        component: () => import('~/views/teacher/class/Edit.vue'),
+        meta: { requiresTeacher: true },
+      },
       // Game
       {
         path: '/game',

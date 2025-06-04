@@ -5,6 +5,7 @@ import { useCoursesStore } from '~/stores/courses'
 import CourseHeader from '~/blocks/student/CourseHeader.vue'
 import CourseInfoCard from '~/blocks/student/CourseInfoCard.vue'
 import CoursePriceCard from '~/blocks/student/CoursePriceCard.vue'
+import EnrollModal from '~/blocks/student/EnrollModal.vue'
 
 const route = useRoute()
 const coursesStore = useCoursesStore()
@@ -23,12 +24,8 @@ const handleJoin = () => {
 const formatDate = (dateString) => {
   if (!dateString) return 'Não definida'
 
-  const date = new Date(dateString)
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }).format(date)
+  const [year, month, day] = dateString.split('-')
+  return `${day}/${month}/${year}`
 }
 
 const formattedPrice = (price) => {
@@ -61,7 +58,7 @@ const formattedPrice = (price) => {
               :value="formatDate(course?.end_date)"
             />
             <CourseInfoCard
-              title="Capacidade"
+              title="Vagas"
               :value="`${course?.max_capacity} alunos`"
             />
           </div>
@@ -77,6 +74,6 @@ const formattedPrice = (price) => {
       </div>
     </div>
 
-    <DevelopmentModal :is-open="showDevModal" @close="showDevModal = false" />
+    <EnrollModal :is-open="showDevModal" @close="showDevModal = false" />
   </div>
 </template>

@@ -1,11 +1,15 @@
 <script setup>
 import { Icon } from '@iconify/vue'
+import router from '~/router'
 
-defineProps({
+const props = defineProps({
   classes: {
     type: Array,
     required: true,
   },
+  courseId: {
+    type: Number
+  }
 })
 
 function formatDate(timestamp) {
@@ -13,6 +17,10 @@ function formatDate(timestamp) {
   return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
          ' às ' +
          date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+}
+
+function handleViewClass(id) {
+  router.push(`/teacher/courses/${props.courseId}/class/${id}/view`)
 }
 </script>
 
@@ -33,18 +41,25 @@ function formatDate(timestamp) {
           <span>{{ classItem.duration_minutes }} minutos</span>
         </p>
       </div>
-      <div class="text-sm font-semibold">
+      <div class="text-sm font-semibold flex items-center gap-x-4">
         <span
-          class="px-2 py-1 rounded-md"
-          :class="classItem.is_free ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+          v-if="classItem.is_free"
+          class="px-2 py-1 rounded-md bg-green-100 text-green-700"
         >
-          {{ classItem.is_free ? 'Gratuito' : 'Pago' }}
+          Gratuita
         </span>
+        <Icon 
+          icon="hugeicons:view" 
+          class="size-6 text-neutral-500 cursor-pointer" 
+          title="Visualizar aula" 
+          @click="handleViewClass(classItem.id)"/>
+        <button class="btn btn-primary btn-outline">
+          Acessar
+        </button>
       </div>
     </div>
-
     <p v-if="classes.length === 0" class="text-neutral-500 text-center">
-      Ainda não existe aulas cadastradas
+      Ainda não existem aulas cadastradas
     </p>
   </div>
 </template>
