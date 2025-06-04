@@ -103,9 +103,7 @@ const buttonLabel = computed(() =>
 
       <div class="form-control">
         <label for="max_capacity" class="label">
-          <span class="label-text font-medium text-gray-800"
-            >Capacidade Máxima</span
-          >
+          <span class="label-text font-medium text-gray-800">Capacidade Máxima</span>
         </label>
         <InputMaxCapacity
           id="max_capacity"
@@ -117,9 +115,7 @@ const buttonLabel = computed(() =>
 
       <div class="form-control">
         <label for="start_date" class="label">
-          <span class="label-text font-medium text-gray-800"
-            >Data de Início</span
-          >
+          <span class="label-text font-medium text-gray-800">Data de Início</span>
         </label>
         <InputDate
           id="start_date"
@@ -130,9 +126,7 @@ const buttonLabel = computed(() =>
 
       <div class="form-control">
         <label for="end_date" class="label">
-          <span class="label-text font-medium text-gray-800"
-            >Data de Término</span
-          >
+          <span class="label-text font-medium text-gray-800">Data de Término</span>
         </label>
         <InputDate
           id="end_date"
@@ -141,6 +135,7 @@ const buttonLabel = computed(() =>
         />
       </div>
     </div>
+
     <div class="form-control">
       <label for="description" class="label">
         <span class="label-text font-medium text-gray-800">Descrição</span>

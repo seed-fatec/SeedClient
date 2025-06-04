@@ -50,12 +50,8 @@ const formattedPrice = computed(() => {
 const formatDate = (dateString) => {
   if (!dateString) return 'Não definida'
 
-  const date = new Date(dateString)
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }).format(date)
+  const [year, month, day] = dateString.split('-')
+  return `${day}/${month}/${year}`
 }
 
 const startDate = computed(() => formatDate(courseDetails.value.start_date))
