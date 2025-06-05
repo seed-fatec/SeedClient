@@ -16,7 +16,7 @@ export const useClassStore = defineStore('class', {
       return useApi(`/courses/${courseId}/classes/${classId}`).put(classData).json()
     },
     delete(courseId, classId) {
-      return useApi(`/courses/${courseId}/classes/${classId}`).delete().json()
+      return useApi(`/courses/${courseId}/classes/${classId}`).delete()
     },
     classesList(courseId) {
       return useApi(`/courses/${courseId}/classes`, { immediate: true }).get().json()

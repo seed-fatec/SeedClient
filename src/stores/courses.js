@@ -14,7 +14,7 @@ export const useCoursesStore = defineStore('courses', {
     },
 
     deleteCourse(courseId) {
-      return useApi(`/courses/${courseId}`).delete().json()
+      return useApi(`/courses/${courseId}`).delete()
     },
 
     enrollInCourse(courseId) {

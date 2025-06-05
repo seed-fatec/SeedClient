@@ -12,6 +12,10 @@ const isTeacher = computed(() => authStore.isTeacher)
 const handleLogout = async () => {
   await authStore.logout()
 }
+
+function redirectToProfile() {
+  router.push('/profile')
+}
 </script>
 
 <template>
@@ -76,7 +80,8 @@ const handleLogout = async () => {
         >
           <Icon
             icon="mdi:account"
-            class="text-gray-700 text-2xl group-hover:text-primary transition-colors duration-200"
+            class="text-gray-700 text-2xl cursor-pointer group-hover:text-primary transition-colors duration-200"
+            @click="redirectToProfile"
           />
         </button>
         <button

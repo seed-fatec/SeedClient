@@ -29,7 +29,7 @@ const { handleSubmit, values } = useForm({
 })
 
 const onLoginSubmit = handleSubmit(async () => {
-  const { execute, isFetching, data } = authStore.login(
+  const { execute, isFetching, data, statusCode } = authStore.login(
     values.email,
     values.password,
     false
@@ -38,6 +38,7 @@ const onLoginSubmit = handleSubmit(async () => {
   loading.value = isFetching.value
 
   execute().then(() => {
+    if (statusCode.value === 401 || statusCode.value === 500) return
     toast.success('Login realizado com sucesso!')
 
     if (data.value) {

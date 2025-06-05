@@ -24,10 +24,11 @@ const handleDelete = async () => {
 
 const confirmDelete = async () => {
   deleteClass()
-    .finally(() => {
-      if (statusCode.value !== 204) return
+    .then(() => {
+      showDeleteModal.value = false
+      execute()
       toast.success('Aula excluída com sucesso!')
-      //router.push(`/teacher/courses/${route.params.id}`)
+      router.push(`/teacher/courses/${route.params.id}/class/${route.params.classId}/view`)
     })
 }
 

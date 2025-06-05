@@ -7,6 +7,7 @@ import CourseActions from '~/blocks/teacher/CourseActions.vue'
 import CourseInfo from '~/blocks/teacher/CourseInfo.vue'
 import CourseLessons from '~/blocks/teacher/CourseLessons.vue'
 import { useClassStore } from '~/stores/class'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const route = useRoute()
@@ -19,7 +20,7 @@ const showDevelopmentModal = ref(false)
 const showDeleteModal = ref(false)
 
 const { execute, data, isFetching } = coursesStore.fetchCourseDetails(route.params.id)
-const { execute: deleteCourse, statusCode } = coursesStore.deleteCourse(route.params.id)
+const { execute: deleteCourse } = coursesStore.deleteCourse(route.params.id)
 execute()
 
 const { data: classData } = classStore.classesList(route.params.id)
@@ -33,8 +34,7 @@ const handleDelete = async () => {
 
 const confirmDelete = async () => {
   deleteCourse()
-    .finally(() => {
-      if (statusCode.value !== 204) return
+    .then(() => {
       toast.success('Curso excluído com sucesso!')
       router.push({ name: 'TeacherCourses' })
     })

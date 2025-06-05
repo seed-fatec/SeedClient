@@ -37,7 +37,6 @@ export const useAuthStore = defineStore('auth', {
         router.push({ name: 'Login' })
       }
     },
-
     async refreshAccessToken() {
       if (!this.refreshToken) return false
 
@@ -61,26 +60,12 @@ export const useAuthStore = defineStore('auth', {
         return false
       }
     },
-
-    async me() {
-      try {
-        const { data, error } = await useApi('/users/me', { immediate: true }).get().json()
-
-        if (error.value)
-          throw new Error(
-            error.value?.message || 'Falha ao obter dados do usuário'
-          )
-
-        if (data.value) {
-          this.setUser(data.value)
-          return data.value
-        }
-        return null
-      } catch (err) {
-        return null
-      }
+    me() {
+      return useApi('/users/me', { immediate: true }).get().json()
     },
-
+    updateProfile(user) {
+      return useApi('/users/me').put(user)
+    },
     setAccessToken(token) {
       this.accessToken = token
     },
