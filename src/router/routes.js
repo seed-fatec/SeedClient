@@ -95,11 +95,16 @@ export const routes = [
         component: () => import('~/views/teacher/class/Edit.vue'),
         meta: { requiresTeacher: true },
       },
-      // Game
       {
         path: '/game',
         name: 'Game',
         component: () => import('~/views/Game.vue'),
+        alias: '',
+      },
+      {
+        path: '/chat/:id',
+        name: 'Chat',
+        component: () => import('~/views/course/Chat.vue'),
         alias: '',
       },
     ],
