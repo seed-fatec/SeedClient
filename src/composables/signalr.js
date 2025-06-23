@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr";
-import { signalUrl } from '~/config/env';
+import { signalrUrl } from '~/config/env';
 import { onUnmounted, ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 
@@ -12,7 +12,7 @@ export function useSignalR() {
     if (!authStore.accessToken)
       throw new Error("Token de acesso não encontrado");
     connection.value = new signalR.HubConnectionBuilder()
-      .withUrl(signalUrl, {
+      .withUrl(signalrUrl, {
         accessTokenFactory: () => authStore.accessToken,
       })
       .withAutomaticReconnect()
