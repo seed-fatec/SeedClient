@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BackButton: typeof import('./components/BackButton.vue')['default']
     Checkbox: typeof import('./components/forms/Checkbox.vue')['default']
+    ClassCard: typeof import('./components/ClassCard.vue')['default']
     ClassForm: typeof import('./components/ClassForm.vue')['default']
     CourseCard: typeof import('./components/CourseCard.vue')['default']
     CourseForm: typeof import('./components/CourseForm.vue')['default']
@@ -24,6 +25,7 @@ declare module 'vue' {
     InputPassword: typeof import('./components/forms/InputPassword.vue')['default']
     InputPrice: typeof import('./components/forms/InputPrice.vue')['default']
     InputTimestamp: typeof import('./components/forms/InputTimestamp.vue')['default']
+    MyCourseCard: typeof import('./components/MyCourseCard.vue')['default']
     Phaser: typeof import('./components/Phaser.vue')['default']
     ProfileForm: typeof import('./components/ProfileForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
