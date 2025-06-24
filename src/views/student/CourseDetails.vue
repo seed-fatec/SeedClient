@@ -5,6 +5,7 @@ import { useCoursesStore } from '~/stores/courses'
 import CourseHeader from '~/blocks/student/CourseHeader.vue'
 import CourseInfoCard from '~/blocks/student/CourseInfoCard.vue'
 import CoursePriceCard from '~/blocks/student/CoursePriceCard.vue'
+import EnrollModal from '~/blocks/student/EnrollModal.vue'
 
 const route = useRoute()
 const coursesStore = useCoursesStore()
@@ -73,6 +74,6 @@ const formattedPrice = (price) => {
       </div>
     </div>
 
-    <DevelopmentModal :is-open="showDevModal" @close="showDevModal = false" />
+    <EnrollModal :course :is-open="showDevModal" @close="showDevModal = false" />
   </div>
 </template>
