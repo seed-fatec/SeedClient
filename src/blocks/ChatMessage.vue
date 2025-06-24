@@ -19,7 +19,7 @@ const isCurrentUser = props.message.senderId === props.currentUserId;
       <time class="text-xs opacity-50 ml-1">{{ message.timestamp }}</time>
     </div>
     <div
-      class="chat-bubble"
+      class="chat-bubble break-words"
       :class="[
         isCurrentUser ? 'chat-bubble-primary' : 'bg-base-300 text-base-content',
         !message.sent ? 'animate-pulse opacity-60' : '',
