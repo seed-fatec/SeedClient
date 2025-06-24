@@ -9,6 +9,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BackButton: typeof import('./components/BackButton.vue')['default']
+    ChatInput: typeof import('./components/ChatInput.vue')['default']
+    ChatMessage: typeof import('./components/ChatMessage.vue')['default']
     Checkbox: typeof import('./components/forms/Checkbox.vue')['default']
     ClassCard: typeof import('./components/ClassCard.vue')['default']
     ClassForm: typeof import('./components/ClassForm.vue')['default']

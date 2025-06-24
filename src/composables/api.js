@@ -17,7 +17,7 @@ export const useApi = createFetch({
       return { options }
     },
     onFetchError(ctx) {
-      const msg = ctx.data.message || 'A requisição falhou.'
+      const msg = ctx.data?.message || 'A requisição falhou.'
       toast.error(msg)
       console.error('API Error:', msg)
       return ctx

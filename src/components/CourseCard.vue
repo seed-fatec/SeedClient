@@ -1,68 +1,68 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCoursesStore } from '~/stores/courses'
-import { useAuthStore } from '~/stores/auth'
+import { computed, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useCoursesStore } from "~/stores/courses";
+import { useAuthStore } from "~/stores/auth";
 
 const props = defineProps({
   course: {
     type: Object,
     required: true,
   },
-})
+});
 
-const router = useRouter()
-const authStore = useAuthStore()
-const coursesStore = useCoursesStore()
-const courseDetails = ref(props.course)
-const loading = ref(false)
+const router = useRouter();
+const authStore = useAuthStore();
+const coursesStore = useCoursesStore();
+const courseDetails = ref(props.course);
+const loading = ref(false);
 
 const fetchCourseDetails = async () => {
-  if (courseDetails.value.teacher?.name) return
+  if (courseDetails.value.teacher?.name) return;
 
-  loading.value = true
+  loading.value = true;
   try {
-    const { data } = await coursesStore.fetchCourseDetails(props.course.id)
+    const { data } = await coursesStore.fetchCourseDetails(props.course.id);
     if (data) {
-      courseDetails.value = data
+      courseDetails.value = data;
     }
   } catch (err) {
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 onMounted(() => {
-  fetchCourseDetails()
-})
+  fetchCourseDetails();
+});
 
 const teacherName = computed(
-  () => courseDetails.value.teacher?.name || 'Professor'
-)
+  () => courseDetails.value.teacher?.name || "Professor"
+);
 
 const formattedPrice = computed(() => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(courseDetails.value.price / 100)
-})
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(courseDetails.value.price / 100);
+});
 
 const formatDate = (dateString) => {
-  if (!dateString) return 'Não definida'
+  if (!dateString) return "Não definida";
 
-  const [year, month, day] = dateString.split('-')
-  return `${day}/${month}/${year}`
-}
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
+};
 
-const startDate = computed(() => formatDate(courseDetails.value.start_date))
-const endDate = computed(() => formatDate(courseDetails.value.end_date))
+const startDate = computed(() => formatDate(courseDetails.value.start_date));
+const endDate = computed(() => formatDate(courseDetails.value.end_date));
 
 const navigateToCourse = () => {
   const route = authStore.isTeacher
     ? `/teacher/courses/${courseDetails.value.id}`
-    : `/courses/${courseDetails.value.id}`
-  router.push(route)
-}
+    : `/courses/${courseDetails.value.id}`;
+  router.push(route);
+};
 </script>
 
 <template>
@@ -70,12 +70,17 @@ const navigateToCourse = () => {
     class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
     @click="navigateToCourse"
   >
-    <div class="h-40 bg-primary flex items-center justify-center">
+    <div
+      v-if="course.avatar_url"
+      class="h-40 bg-primary flex items-center justify-center relative"
+    >
+      <img class="w-full h-full object-cover" :src="course.avatar_url" />
+    </div>
+    <div v-else class="h-40 bg-primary flex items-center justify-center">
       <h1 class="text-3xl font-bold text-white justify-center flex gap-0.5">
         Se<span class="text-primary bg-white px-1 rounded">ed</span>
       </h1>
     </div>
-
     <div class="p-4">
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-xl font-semibold text-gray-800">
