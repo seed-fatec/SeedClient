@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  teacherName: {
+  username: {
     type: String,
     required: true,
   },
@@ -20,14 +20,17 @@ const props = defineProps({
         class="w-12 h-12 rounded-full ring ring-primary-content ring-offset-primary ring-offset-2"
       >
         <img
+          v-if="avatarSrc"
           :src="avatarSrc"
-          data-ai-hint="teacher avatar"
-          :alt="teacherName"
+          :alt="username"
         />
+        <div v-else class="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
+          <span class="text-gray-500">{{ username.charAt(0).toUpperCase() }}</span>
+        </div>
       </div>
     </div>
     <div>
-      <h2 class="text-xl font-semibold">{{ teacherName }}</h2>
+      <h2 class="text-xl font-semibold">{{ username }}</h2>
     </div>
   </div>
 </template>
