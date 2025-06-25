@@ -74,6 +74,6 @@ const formattedPrice = (price) => {
       </div>
     </div>
 
-    <EnrollModal :course :is-open="showDevModal" @close="showDevModal = false" />
+    <EnrollModal v-if="course" :course :is-open="showDevModal" @close="showDevModal = false" />
   </div>
 </template>
