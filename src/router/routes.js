@@ -60,7 +60,7 @@ export const routes = [
       },
       {
         path: '/courses/:id/classes/:classId',
-        name: 'ClassesDetails',
+        name: 'StudentClassesDetails',
         component: () => import('~/views/student/ClassDetails.vue'),
         meta: { requiresTeacher: false },
       },
