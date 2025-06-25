@@ -32,5 +32,6 @@ declare module 'vue' {
     ProfileForm: typeof import('./components/ProfileForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search: typeof import('./components/Search.vue')['default']
   }
 }
