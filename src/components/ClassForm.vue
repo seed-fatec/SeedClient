@@ -99,8 +99,8 @@ function removeFile(index) {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-    <div>
+  <div class="flex justify-center w-full">
+    <!-- <div>
       <div class="relative w-full h-40 bg-neutral-100 rounded-md flex items-center justify-center border border-dashed">
         <label class="aular-pointer w-full h-full flex justify-center items-center">
           <input type="file" accept="image/*" class="hidden" @change="onImageChange" />
@@ -133,8 +133,8 @@ function removeFile(index) {
           </li>
         </ul>
       </div>
-    </div>
-    <form @submit.prevent="onSubmit" class="space-y-6">
+    </div> -->
+    <form @submit.prevent="onSubmit" class="space-y-6 max-w-3xl w-full">
       <div class="form-control">
         <label for="name" class="label">
           <span class="label-text font-medium text-gray-800">Nome da Aula</span>

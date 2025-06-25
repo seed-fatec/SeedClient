@@ -8,7 +8,6 @@ import { useAuthStore } from "~/stores/auth";
 import ChatHeader from "~/blocks/ChatHeader.vue";
 import ChatInput from "~/components/ChatInput.vue";
 import ChatMessage from "~/blocks/ChatMessage.vue";
-import { toast } from "vue3-toastify";
 
 const newMessage = ref("");
 const textareaInput = ref(null);
@@ -56,12 +55,14 @@ function formatTime(ts) {
 }
 
 watch(
-  chatMessages,
-  (newVal) => {
-    if (newVal && Array.isArray(newVal.messages)) {
+  [chatMessages, currentUser],
+  ([newVal, user]) => {
+    if (newVal && Array.isArray(newVal.messages) && user) {
       messages.value = newVal.messages.map((msg) => {
         return {
           id: msg.id,
+          avatarUrl: msg.sender_id == user.id ? user.avatar_url : recipient.value.avatar_url,
+          senderName: msg.sender_id == user.id ? user.name : recipient.value.name,
           senderId: msg.sender_id,
           recipientId: msg.recipient_id,
           content: msg.content,
@@ -88,23 +89,14 @@ onMounted(async () => {
       messages.value.push({
         id: data.message.id,
         senderId: data.message.sender_id,
+        avatarUrl: data.message.sender_id == currentUser.value.id ? currentUser.value.avatar_url : recipient.value.avatar_url,
+        senderName: data.message.sender_id == currentUser.value.id ? currentUser.value.name : recipient.value.name,
         recipientId: data.message.recipient_id,
         content: data.message.content,
         timestamp: formatTime(data.message.timestamp),
         sent: true,
       });
       nextTick(() => scrollToBottom());
-    });
-
-    signalrStore.connection.on("MessageSent", (data) => {
-      if (currentUser.value && data.toUserId == currentUser.value.id) {
-        const msg = messages.value.find(
-          (m) => !m.sent && m.senderId === currentUser.value.id
-        );
-        if (msg) {
-          msg.sent = true;
-        }
-      }
     });
   }
 
@@ -116,6 +108,8 @@ const sendMessage = () => {
 
   messages.value.push({
     id: Date.now(),
+    avatarUrl: currentUser.value.avatar_url,
+    senderName: currentUser.value.name,
     senderId: currentUser.value.id,
     recipientId: recipientId,
     content: newMessage.value.trim(),
@@ -151,8 +145,9 @@ const sendMessage = () => {
   >
     <div class="flex-1 flex flex-col min-h-0">
       <ChatHeader
-        :teacherName="recipient?.name"
-        :avatarSrc="'https://placehold.co/100x100.png'"
+        v-if="recipient"
+        :username="recipient?.name"
+        :avatarSrc="recipient.avatar_url"
       />
 
       <div

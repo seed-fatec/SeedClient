@@ -123,7 +123,6 @@ export const routes = [
         path: '/chat/:id',
         name: 'Chat',
         component: () => import('~/views/course/Chat.vue'),
-        alias: '',
       },
     ],
   },
