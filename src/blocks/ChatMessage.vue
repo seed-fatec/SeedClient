@@ -11,7 +11,13 @@ const isCurrentUser = props.message.senderId === props.currentUserId;
   <div class="chat" :class="isCurrentUser ? 'chat-end' : 'chat-start'">
     <div class="chat-image avatar">
       <div class="w-10 rounded-full">
-        <img :src="'https://placehold.co/100x100.png'" :alt="message.senderName" />
+        <img v-if="message.avatarUrl" :src="message.avatarUrl" />
+        <div
+          v-else
+          class="bg-gray-300 w-full h-full rounded-full flex items-center justify-center"
+        >
+          <span class="text-gray-500">{{ message.senderName.charAt(0).toUpperCase() }}</span>
+        </div>
       </div>
     </div>
     <div class="chat-header">
