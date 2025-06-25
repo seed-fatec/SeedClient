@@ -10,7 +10,7 @@ const error = ref(null)
 const searchQuery = ref('')
 const sortOrder = ref('desc')
 
-const { execute, data, isFetching } = coursesStore.fetchCourses()
+const { execute, data, isFetching } = coursesStore.fetchTaughtCourses()
 
 execute()
 

@@ -27,6 +27,9 @@ export const useCoursesStore = defineStore('courses', {
     },
     fetchMyCourses() {
       return useApi('/courses/enrolled').get().json()
+    },
+    fetchTaughtCourses() {
+      return useApi('/courses/taught').get().json()
     }
   },
 })
