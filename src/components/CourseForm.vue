@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from 'vee-validate'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import * as yup from 'yup'
 
 const props = defineProps({
@@ -31,6 +31,8 @@ const props = defineProps({
 
 const emit = defineEmits(['submit', 'cancel'])
 
+const file = defineModel()
+
 const schema = yup.object({
   name: yup
     .string()
@@ -52,6 +54,8 @@ const schema = yup.object({
   end_date: yup.string().nullable(),
 })
 
+const selectedFile = ref(null)
+
 const { handleSubmit, values } = useForm({
   validationSchema: schema,
   initialValues: props.initialValues,
@@ -66,16 +70,21 @@ const onSubmit = handleSubmit(async (formValues) => {
     start_date: formValues.start_date,
     end_date: formValues.end_date,
   }
-  emit('submit', courseData)
+  emit('submit', { ...courseData, file: selectedFile.value })
 })
 
 const buttonLabel = computed(() =>
   props.loading ? props.loadingButtonText : props.submitButtonText
 )
+
+function onFileSelected(file) {
+  selectedFile.value = file
+}
 </script>
 
 <template>
   <form @submit.prevent="onSubmit" class="space-y-6">
+    <ImageInput @file-selected="onFileSelected" />
     <div class="form-control">
       <label for="name" class="label">
         <span class="label-text font-medium text-gray-800">Nome do Curso</span>

@@ -3,6 +3,7 @@ import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useClassStore } from '~/stores/class'
 import { useAuthStore } from '~/stores/auth'
+import router from '~/router'
 
 const props = defineProps({
   courseId: {
@@ -14,7 +15,6 @@ const props = defineProps({
   },
 })
 
-const router = useRouter()
 const authStore = useAuthStore()
 const classStore = useClassStore()
 const classDetails = ref(props.classItem)
@@ -68,11 +68,8 @@ const endTimeFormatted = computed(() => {
   return formatDateTime(date)
 })
 
-const navigateToCourse = () => {
-  const route = authStore.isTeacher
-    ? `/teacher/courses/${classDetails.value.course_id}`
-    : `/courses/${classDetails.value.course_id}`
-  router.push(route)
+function redirectToClass() {
+  router.push(`/courses/${props.courseId}/classes/${classDetails.value.id}`)
 }
 </script>
 
@@ -80,7 +77,7 @@ const navigateToCourse = () => {
 <template>
   <div
     class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
-    @click="navigateToCourse"
+    @click="redirectToClass"
   >
     <div class="p-4">
       <div class="flex justify-between items-center mb-2">
@@ -100,7 +97,7 @@ const navigateToCourse = () => {
       </div>
       <div class="border-t border-gray-200 pt-3 mt-3">
         <div class="flex justify-between items-center">
-          <button class="btn btn-primary">
+          <button class="btn btn-primary" @click="redirectToClass">
             Acessar
           </button>
         </div>

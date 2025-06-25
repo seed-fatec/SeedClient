@@ -4,6 +4,8 @@ import { ref } from 'vue'
 import { computed } from 'vue'
 import * as yup from 'yup'
 import { Icon } from '@iconify/vue'
+import { apiUrl } from '~/config/env'
+import { useAuthStore } from '~/stores/auth'
 
 const props = defineProps({
   initialValues: {
@@ -33,6 +35,8 @@ const props = defineProps({
   },
 })
 
+const authStore = useAuthStore()
+
 const emit = defineEmits(['submit', 'cancel'])
 const free = ref(props.isFree)
 
@@ -60,15 +64,47 @@ const buttonLabel = computed(() =>
   props.loading ? props.loadingButtonText : props.submitButtonText
 )
 
-const imagePreview = ref(null)
+const imagePreview = ref(props.initialValues.avatar_url)
 const uploadedFiles = ref([])
 
-function onImageChange(event) {
+async function onImageChange(event) {
   const file = event.target.files[0]
-  if (file) {
-    imagePreview.value = URL.createObjectURL(file)
+  if (!file) return
+
+  imagePreview.value = URL.createObjectURL(file)
+
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const url = `${apiUrl}/users/me/avatar`
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${authStore.accessToken}`
+      },
+      body: formData
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      console.error('Erro ao enviar avatar:', error)
+    }
+  } catch (error) {
+    console.error('Erro na requisição:', error)
   }
 }
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
+
 
 function onFilesChange(event) {
   const newFiles = Array.from(event.target.files)

@@ -70,12 +70,17 @@ const navigateToCourse = () => {
     class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
     @click="navigateToCourse"
   >
-    <div class="h-40 bg-primary flex items-center justify-center">
+    <div
+      v-if="course.avatar_url"
+      class="h-40 bg-primary flex items-center justify-center relative"
+    >
+      <img class="w-full h-full object-cover" :src="course.avatar_url" />
+    </div>
+    <div v-else class="h-40 bg-primary flex items-center justify-center">
       <h1 class="text-3xl font-bold text-white justify-center flex gap-0.5">
         Se<span class="text-primary bg-white px-1 rounded">ed</span>
       </h1>
     </div>
-
     <div class="p-4">
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-xl font-semibold text-gray-800">

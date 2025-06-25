@@ -58,6 +58,12 @@ export const routes = [
         component: () => import('~/views/student/Classes.vue'),
         meta: { requiresTeacher: false },
       },
+      {
+        path: '/courses/:id/classes/:classId',
+        name: 'ClassesDetails',
+        component: () => import('~/views/student/ClassDetails.vue'),
+        meta: { requiresTeacher: false },
+      },
       // Teacher routes
       {
         path: '/teacher/courses',
@@ -99,6 +105,12 @@ export const routes = [
         path: '/teacher/courses/:id/class/:classId/edit',
         name: 'EditClass',
         component: () => import('~/views/teacher/class/Edit.vue'),
+        meta: { requiresTeacher: true },
+      },
+      {
+        path: '/teacher/courses/:id/classes/:classId',
+        name: 'ClassesDetails',
+        component: () => import('~/views/student/ClassDetails.vue'),
         meta: { requiresTeacher: true },
       },
       {

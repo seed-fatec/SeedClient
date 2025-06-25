@@ -22,6 +22,10 @@ function formatDate(timestamp) {
 function handleViewClass(id) {
   router.push(`/teacher/courses/${props.courseId}/class/${id}/view`)
 }
+
+function redirectToClass(classId) {
+  router.push(`/teacher/courses/${props.courseId}/classes/${classId}`)
+}
 </script>
 
 <template>
@@ -52,8 +56,9 @@ function handleViewClass(id) {
           icon="hugeicons:view" 
           class="size-6 text-neutral-500 cursor-pointer" 
           title="Visualizar aula" 
-          @click="handleViewClass(classItem.id)"/>
-        <button class="btn btn-primary btn-outline">
+          @click="handleViewClass(classItem.id)"
+        />
+        <button class="btn btn-primary btn-outline" @click="redirectToClass(classItem.id)">
           Acessar
         </button>
       </div>

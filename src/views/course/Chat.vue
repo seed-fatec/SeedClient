@@ -8,6 +8,7 @@ import { useAuthStore } from "~/stores/auth";
 import ChatHeader from "~/blocks/ChatHeader.vue";
 import ChatInput from "~/components/ChatInput.vue";
 import ChatMessage from "~/blocks/ChatMessage.vue";
+import { toast } from "vue3-toastify";
 
 const newMessage = ref("");
 const textareaInput = ref(null);
