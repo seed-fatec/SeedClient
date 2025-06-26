@@ -76,7 +76,7 @@ export class GameScene extends Scene {
         });
 
         this.score = 0;
-        this.scoreText = this.add.text(0, 0, "Score: 0", { fontSize: '16px' });
+        this.scoreText = this.add.text(0, 0, "Score: 0", { fontSize: '16px', fontFamily: 'Poppins', fontStyle: 'bold' });
         
         this.stars.children.iterate(function (child) {
             let randomX = Phaser.Math.Between(0, 500);

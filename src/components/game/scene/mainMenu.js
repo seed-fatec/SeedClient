@@ -10,8 +10,8 @@ export class MainMenu extends Scene {
     }
 
     create() {
-        this.add.text(10, 430, 'Star dash v1.1', { fontSize: '32px', fill: '#fff' });
-        this.add.text(10, 470, 'Press enter to start');
+        this.add.text(10, 430, 'Star dash v1.1', { fontFamily: 'Poppins', fontSize: '32px', fontStyle: 'bold', color: '#ffffff' });
+        this.add.text(10, 470, 'Press enter to start', { fontFamily: 'Poppins', fontSize: '22px', fontStyle: 'bold', color: '#ffffff' });
         this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 

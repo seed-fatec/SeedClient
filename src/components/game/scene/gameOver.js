@@ -16,9 +16,9 @@ export class GameOver extends Scene {
         const music = this.sound.add('gameoveraudio');
         music.play();
 
-        this.add.text(100, 130, 'Game Over', { fontSize: '60px', fill: '#fff' });
+        this.add.text(100, 130, 'Game Over', { fontSize: '50px', fill: '#fff', fontFamily: 'Poppins', fontStyle: 'bold' });
         this.add.image(250,270, 'sponge').setDisplaySize(150, 150);
-        this.add.text(150, 370, 'Press enter to restart');
+        this.add.text(150, 370, 'Press enter to restart', { fontSize: '18px', fontFamily: 'Poppins', fontStyle: 'bold' });
 
         
         this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
