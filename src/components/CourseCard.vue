@@ -58,7 +58,10 @@ const formatDate = (dateString) => {
 const startDate = computed(() => formatDate(courseDetails.value.start_date));
 const endDate = computed(() => formatDate(courseDetails.value.end_date));
 
+const isAvailable = computed(() => courseDetails.value.remaining_vacancies > 0);
+
 const navigateToCourse = () => {
+  if (!isAvailable.value) return;
   const route = authStore.isTeacher
     ? `/teacher/courses/${courseDetails.value.id}`
     : `/courses/${courseDetails.value.id}`;
@@ -68,7 +71,8 @@ const navigateToCourse = () => {
 
 <template>
   <div
-    class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
+    class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer group"
+    :class="!isAvailable ? 'opacity-80 select-none grayscale-[0.3] bg-gray-100 pointer-events-auto' : ''"
     @click="navigateToCourse"
   >
     <div
@@ -84,11 +88,20 @@ const navigateToCourse = () => {
     </div>
     <div class="p-4">
       <div class="flex justify-between items-center mb-2">
-        <h3 class="text-xl font-semibold text-gray-800">
+        <h3 class="text-md truncate font-semibold text-gray-800">
           {{ courseDetails.name }}
         </h3>
-        <span class="ml-1 text-white badge badge-success">
+        <span
+          v-if="isAvailable"
+          class="ml-1 text-white badge badge-success"
+        >
           {{ courseDetails.remaining_vacancies }} vagas
+        </span>
+        <span
+          v-else
+          class="ml-1 text-white badge badge-error bg-red-500/80 border-none"
+        >
+          Sem vagas
         </span>
       </div>
       <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
@@ -119,8 +132,9 @@ const navigateToCourse = () => {
             <RouterLink
               v-if="courseDetails.teachers && courseDetails.teachers[0]?.id"
               :to="`/teachers/${courseDetails.teachers[0].id}/profile`"
-              class="text-sm text-gray-600 hover:underline"
+              class="text-sm text-gray-600 hover:underline z-10"
               @click.stop
+              tabindex="0"
             >
               {{ teacherName }}
             </RouterLink>
@@ -129,7 +143,7 @@ const navigateToCourse = () => {
             </span>
           </div>
           <div>
-            <span class="text-2xl">{{ formattedPrice }}</span>
+            <span class="text-2xl font-semibold">{{ formattedPrice }}</span>
           </div>
         </div>
       </div>

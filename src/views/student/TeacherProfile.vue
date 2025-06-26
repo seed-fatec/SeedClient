@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useUsersStore } from "~/stores/users";
 import { useCoursesStore } from "~/stores/courses";
