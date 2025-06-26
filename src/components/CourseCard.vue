@@ -39,9 +39,7 @@ onMounted(() => {
 const teacherName = computed(
   () => courseDetails.value.teachers[0].name || "Professor"
 );
-const teacherIcon = computed(
-  () => courseDetails.value.teachers[0].avatar_url
-);
+const teacherIcon = computed(() => courseDetails.value.teachers[0].avatar_url);
 
 const formattedPrice = computed(() => {
   return new Intl.NumberFormat("pt-BR", {
@@ -116,8 +114,19 @@ const navigateToCourse = () => {
               v-else
               class="w-8 h-8 rounded-full mr-2"
               :src="teacherIcon"
-              alt="Teacher Avatar"/>
-            <span class="text-sm text-gray-600">{{ teacherName }}</span>
+              alt="Teacher Avatar"
+            />
+            <RouterLink
+              v-if="courseDetails.teachers && courseDetails.teachers[0]?.id"
+              :to="`/teachers/${courseDetails.teachers[0].id}/profile`"
+              class="text-sm text-gray-600 hover:underline"
+              @click.stop
+            >
+              {{ teacherName }}
+            </RouterLink>
+            <span v-else class="text-sm text-gray-600">
+              {{ teacherName }}
+            </span>
           </div>
           <div>
             <span class="text-2xl">{{ formattedPrice }}</span>

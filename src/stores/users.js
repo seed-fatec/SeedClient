@@ -9,5 +9,8 @@ export const useUsersStore = defineStore('users', {
     getById(id) {
       return useApi(`/users/${id}`).get().json()
     },
+    getTeacherById(id) {
+      return useApi(`/teachers/${id}`).get().json()
+    },
   },
 })
