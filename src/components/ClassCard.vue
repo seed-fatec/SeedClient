@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { useClassStore } from '~/stores/class'
 import { useAuthStore } from '~/stores/auth'
 import router from '~/router'
@@ -81,7 +80,7 @@ function redirectToClass() {
   >
     <div class="p-4">
       <div class="flex justify-between items-center mb-2">
-        <h3 class="text-xl font-semibold text-gray-800">
+        <h3 class="text-lg font-semibold text-gray-800">
           {{ classDetails.name }}
         </h3>
       </div>

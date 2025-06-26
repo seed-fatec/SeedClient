@@ -1,79 +1,71 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useCoursesStore } from '~/stores/courses'
-import CourseHeader from '~/blocks/student/CourseHeader.vue'
-import CourseInfoCard from '~/blocks/student/CourseInfoCard.vue'
-import CoursePriceCard from '~/blocks/student/CoursePriceCard.vue'
-import EnrollModal from '~/blocks/student/EnrollModal.vue'
+import { ref, computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useCoursesStore } from "~/stores/courses";
+import { useClassStore } from "~/stores/class";
+import EnrollModal from "~/blocks/student/EnrollModal.vue";
+import CourseBanner from "~/blocks/student/CourseBanner.vue";
+import CourseInfoCard from "~/blocks/student/CourseInfoCard.vue";
+import ClassInfoCard from "~/blocks/student/ClassInfoCard.vue";
 
-const route = useRoute()
-const coursesStore = useCoursesStore()
+const route = useRoute();
+const coursesStore = useCoursesStore();
+const classStore = useClassStore();
 
-const showDevModal = ref(false)
+const showDevModal = ref(false);
+const classes = ref([]);
+const loadingClasses = ref(true);
 
-const { execute, data } = coursesStore.fetchCourseDetails(route.params.id)
-execute()
+const { execute, data } = coursesStore.fetchCourseDetails(route.params.id);
+execute();
 
-const course = computed(() => data.value || null)
+const course = computed(() => data.value || null);
 
 const handleJoin = () => {
-  showDevModal.value = true
-}
+  showDevModal.value = true;
+};
 
-const formatDate = (dateString) => {
-  if (!dateString) return 'Não definida'
-
-  const [year, month, day] = dateString.split('-')
-  return `${day}/${month}/${year}`
-}
-
-const formattedPrice = (price) => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(price / 100)
-}
+onMounted(async () => {
+  loadingClasses.value = true;
+  try {
+    const { data, execute } = classStore.index(route.params.id);
+    await execute();
+    classes.value = data.value?.classes || [];
+  } finally {
+    loadingClasses.value = false;
+  }
+});
 </script>
 
 <template>
-  <div class="flex flex-col items-center">
-    <div class="container px-4 py-8">
-      <BackButton to="/discover/courses" text="Voltar para Explorar" />
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 space-y-6">
-          <CourseHeader
-            :name="course?.name"
-            :description="course?.description"
-          />
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <CourseInfoCard
-              title="Data de Início"
-              :value="formatDate(course?.start_date)"
-            />
-            <CourseInfoCard
-              title="Data de Término"
-              :value="formatDate(course?.end_date)"
-            />
-            <CourseInfoCard
-              title="Vagas"
-              :value="`${course?.max_capacity} alunos`"
-            />
-          </div>
-        </div>
-
-        <div class="lg:col-span-1">
-          <CoursePriceCard
-            :price="formattedPrice(course?.price)"
-            :teacher="course?.teachers[0].name"
-            @join="handleJoin"
-          />
-        </div>
+  <div class="flex flex-col items-center min-h-screen bg-base-100">
+    <div
+      v-if="course"
+      class="w-full max-w-4xl mx-auto rounded-2xl shadow-lg overflow-hidden bg-white mt-8 mb-12"
+    >
+      <CourseBanner :course="course" />
+      <CourseInfoCard :course="course" @join="handleJoin" />
+    </div>
+    <!-- Listagem de aulas -->
+    <div class="w-full max-w-4xl mx-auto mb-12 px-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Aulas do curso</h2>
+      <div v-if="loadingClasses" class="flex justify-center items-center h-32">
+        <div
+          class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"
+        ></div>
+      </div>
+      <div v-else-if="classes.length === 0" class="text-gray-500">
+        Nenhuma aula cadastrada para este curso.
+      </div>
+      <div v-else class="flex flex-col gap-4">
+        <ClassInfoCard v-for="lesson in classes" :key="lesson.id" :lesson="lesson" />
       </div>
     </div>
-
-    <EnrollModal v-if="course" :course :is-open="showDevModal" @close="showDevModal = false" />
+    <EnrollModal
+      v-if="course"
+      :course="course"
+      :is-open="showDevModal"
+      @close="showDevModal = false"
+    />
   </div>
 </template>

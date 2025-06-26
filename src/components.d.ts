@@ -13,6 +13,7 @@ declare module 'vue' {
     Checkbox: typeof import('./components/forms/Checkbox.vue')['default']
     ClassCard: typeof import('./components/ClassCard.vue')['default']
     ClassForm: typeof import('./components/ClassForm.vue')['default']
+    CourseBanner: typeof import('./components/CourseBanner.vue')['default']
     CourseCard: typeof import('./components/CourseCard.vue')['default']
     CourseForm: typeof import('./components/CourseForm.vue')['default']
     DeleteModal: typeof import('./components/DeleteModal.vue')['default']
