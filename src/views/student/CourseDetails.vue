@@ -67,7 +67,7 @@ const formattedPrice = (price) => {
         <div class="lg:col-span-1">
           <CoursePriceCard
             :price="formattedPrice(course?.price)"
-            :teacher="course?.teacher"
+            :teacher="course?.teachers[0].name"
             @join="handleJoin"
           />
         </div>

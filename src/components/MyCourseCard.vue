@@ -37,7 +37,10 @@ onMounted(() => {
 })
 
 const teacherName = computed(
-  () => courseDetails.value.teacher?.name || 'Professor'
+  () => courseDetails.value.teachers[0].name || 'Professor'
+)
+const teacherAvatarUrl = computed(
+  () => courseDetails.value.teachers[0].avatar_url
 )
 
 const formattedPrice = computed(() => {
@@ -100,7 +103,13 @@ const navigateToCourse = () => {
       <div class="border-t border-gray-200 pt-3 mt-3">
         <div class="flex justify-between items-center">
           <div class="flex items-center">
+            <img 
+              v-if="teacherAvatarUrl"
+              :src="teacherAvatarUrl"
+              alt="Teacher Avatar"
+              class="w-8 h-8 rounded-full mr-2"/>
             <div
+              v-else
               class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-2"
             >
               {{ teacherName.charAt(0) }}
