@@ -34,7 +34,10 @@ const courses = computed(() => {
     }
   })
 
-  return filtered
+  // Cursos disponíveis primeiro, depois os sem vagas
+  const available = filtered.filter((c) => c.remaining_vacancies > 0)
+  const unavailable = filtered.filter((c) => c.remaining_vacancies <= 0)
+  return [...available, ...unavailable]
 })
 
 const handleSearch = (query) => {
