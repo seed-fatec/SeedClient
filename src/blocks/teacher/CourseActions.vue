@@ -18,12 +18,12 @@ const emit = defineEmits(['createLesson', 'delete'])
     <button @click="emit('createLesson')" class="btn btn-primary">
       Criar Aula
     </button>
-    <button
+    <!-- <button
       @click="router.push(`/teacher/courses/${courseId}/edit`)"
       class="btn btn-accent"
     >
       Editar Curso
-    </button>
+    </button> -->
     <button @click="emit('delete')" class="btn btn-error">Excluir Curso</button>
   </div>
 </template>
