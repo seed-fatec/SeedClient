@@ -14,13 +14,12 @@ const route = useRoute()
 const coursesStore = useCoursesStore()
 const classStore = useClassStore()
 
-const loading = ref(false)
-const error = ref(null)
 const showDevelopmentModal = ref(false)
 const showDeleteModal = ref(false)
 
 const { execute, data, isFetching } = coursesStore.fetchCourseDetails(route.params.id)
 const { execute: deleteCourse } = coursesStore.deleteCourse(route.params.id)
+
 execute()
 
 const { data: classData } = classStore.classesList(route.params.id)
