@@ -1,71 +1,71 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCoursesStore } from '~/stores/courses'
-import { useAuthStore } from '~/stores/auth'
+import { computed, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useCoursesStore } from "~/stores/courses";
+import { useAuthStore } from "~/stores/auth";
 
 const props = defineProps({
   course: {
     type: Object,
     required: true,
   },
-})
+});
 
-const router = useRouter()
-const authStore = useAuthStore()
-const coursesStore = useCoursesStore()
-const courseDetails = ref(props.course)
-const loading = ref(false)
+const router = useRouter();
+const authStore = useAuthStore();
+const coursesStore = useCoursesStore();
+const courseDetails = ref(props.course);
+const loading = ref(false);
 
 const fetchCourseDetails = async () => {
-  if (courseDetails.value.teacher?.name) return
+  if (courseDetails.value.teacher?.name) return;
 
-  loading.value = true
+  loading.value = true;
   try {
-    const { data } = await coursesStore.fetchCourseDetails(props.course.id)
+    const { data } = await coursesStore.fetchCourseDetails(props.course.id);
     if (data) {
-      courseDetails.value = data
+      courseDetails.value = data;
     }
   } catch (err) {
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 onMounted(() => {
-  fetchCourseDetails()
-})
+  fetchCourseDetails();
+});
 
 const teacherName = computed(
-  () => courseDetails.value.teachers[0].name || 'Professor'
-)
+  () => courseDetails.value.teachers[0].name || "Professor"
+);
 const teacherAvatarUrl = computed(
   () => courseDetails.value.teachers[0].avatar_url
-)
+);
 
 const formattedPrice = computed(() => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(courseDetails.value.price / 100)
-})
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(courseDetails.value.price / 100);
+});
 
 const formatDate = (dateString) => {
-  if (!dateString) return 'Não definida'
+  if (!dateString) return "Não definida";
 
-  const [year, month, day] = dateString.split('-')
-  return `${day}/${month}/${year}`
-}
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
+};
 
-const startDate = computed(() => formatDate(courseDetails.value.start_date))
-const endDate = computed(() => formatDate(courseDetails.value.end_date))
+const startDate = computed(() => formatDate(courseDetails.value.start_date));
+const endDate = computed(() => formatDate(courseDetails.value.end_date));
 
 const navigateToCourse = () => {
   const route = authStore.isTeacher
     ? `/teacher/courses/${courseDetails.value.id}`
-    : `/courses/${courseDetails.value.id}/classes`
-  router.push(route)
-}
+    : `/courses/${courseDetails.value.id}/classes`;
+  router.push(route);
+};
 </script>
 
 <template>
@@ -103,23 +103,33 @@ const navigateToCourse = () => {
       <div class="border-t border-gray-200 pt-3 mt-3">
         <div class="flex justify-between items-center">
           <div class="flex items-center">
-            <img 
+            <img
               v-if="teacherAvatarUrl"
               :src="teacherAvatarUrl"
               alt="Teacher Avatar"
-              class="w-8 h-8 rounded-full mr-2"/>
+              class="w-8 h-8 rounded-full mr-2"
+            />
             <div
               v-else
               class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center mr-2"
             >
               {{ teacherName.charAt(0) }}
             </div>
-            <span class="text-sm text-gray-600">{{ teacherName }}</span>
+            <RouterLink
+              v-if="courseDetails.teachers && courseDetails.teachers[0]?.id"
+              :to="`/teachers/${courseDetails.teachers[0].id}/profile`"
+              class="text-sm text-gray-600 hover:underline z-10"
+              @click.stop
+              tabindex="0"
+            >
+              {{ teacherName }}
+            </RouterLink>
+            <span v-else class="text-sm text-gray-600">
+              {{ teacherName }}
+            </span>
           </div>
           <div>
-            <button class="btn btn-primary">
-              Acessar
-            </button>
+            <button class="btn btn-primary">Acessar</button>
           </div>
         </div>
       </div>
