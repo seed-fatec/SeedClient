@@ -24,14 +24,16 @@ onMounted(async () => {
   error.value = null
 
   try {
-    const { data } = await coursesStore.fetchCourseDetails(route.params.id)
+    const { data, execute: fetchCourseDetails } = coursesStore.fetchCourseDetails(route.params.id)
+    await fetchCourseDetails()
+
     initialValues.value = {
-      name: data.name,
-      description: data.description || '',
-      price: data.price,
-      max_capacity: data.max_capacity,
-      start_date: data.start_date || '',
-      end_date: data.end_date || '',
+      name: data.value.name,
+      description: data.value.description || '',
+      price: data.value.price,
+      max_capacity: data.value.max_capacity,
+      start_date: data.value.start_date || '',
+      end_date: data.value.end_date || '',
     }
   } catch (err) {
     error.value =
