@@ -64,6 +64,12 @@ export const routes = [
         component: () => import('~/views/student/ClassDetails.vue'),
         meta: { requiresTeacher: false },
       },
+      {
+        path: '/teachers/:id/profile',
+        name: 'TeacherProfile',
+        component: () => import('~/views/student/TeacherProfile.vue'),
+        meta: { requiresTeacher: false },
+      },
       // Teacher routes
       {
         path: '/teacher/courses',
