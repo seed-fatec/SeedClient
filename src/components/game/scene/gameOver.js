@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
-import cat from '@assets/catGameOver.png';
-import catAudio from '@assets/cat-laugh.mp3';
+import sponge from '@assets/sponge.png';
+import gameoveraudio from '@assets/gameover.mp3';
 
 export class GameOver extends Scene {
     constructor() {
@@ -8,16 +8,16 @@ export class GameOver extends Scene {
     }
 
     preload() {
-        this.load.image('cat', cat);
-        this.load.audio('catAudio', catAudio);
+        this.load.image('sponge', sponge);
+        this.load.audio('gameoveraudio', gameoveraudio);
     }
     create() {
         this.sound.pauseOnBlur = false;
-        const music = this.sound.add('catAudio');
+        const music = this.sound.add('gameoveraudio');
         music.play();
 
         this.add.text(100, 130, 'Game Over', { fontSize: '60px', fill: '#fff' });
-        this.add.image(250,270, 'cat').setDisplaySize(150, 150);
+        this.add.image(250,270, 'sponge').setDisplaySize(150, 150);
         this.add.text(150, 370, 'Press enter to restart');
 
         
